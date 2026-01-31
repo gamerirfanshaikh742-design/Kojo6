@@ -1,0 +1,2876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kojo - Asian Entertainment Discovery</title>
+    <meta name="description" content="Community-driven platform for discovering Korean dramas, Japanese dramas, and Asian movies. Track, review, and discuss with fellow fans.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* CSS Variables for Theme */
+        :root {
+            --primary-pink: #FF7BAC;
+            --pink-light: #FFB8D7;
+            --pink-pastel: #FFE4EC;
+            --mint-green: #80E5B2;
+            --mint-light: #C2F5DC;
+            --white: #FFFFFF;
+            --gray-light: #F8F9FA;
+            --gray-medium: #E9ECEF;
+            --gray-dark: #6C757D;
+            --black: #212529;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.12);
+            --radius: 12px;
+            --radius-small: 8px;
+            --transition: all 0.3s ease;
+        }
+
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Nunito', 'Arial Rounded MT Bold', sans-serif;
+            background-color: var(--white);
+            color: var(--black);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button, input, textarea, select {
+            font-family: inherit;
+            font-size: inherit;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 15px 0;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary-pink);
+        }
+
+        .logo-icon {
+            background-color: var(--primary-pink);
+            color: var(--white);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-link {
+            font-weight: 600;
+            color: var(--black);
+            padding: 8px 0;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary-pink);
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary-pink);
+            border-radius: 2px;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--primary-pink);
+            cursor: pointer;
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .search-container {
+            position: relative;
+        }
+
+        .search-input {
+            padding: 10px 15px 10px 40px;
+            border: 2px solid var(--gray-medium);
+            border-radius: 50px;
+            width: 200px;
+            transition: var(--transition);
+            font-size: 0.95rem;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-pink);
+            width: 250px;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-dark);
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-pink);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--pink-light);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary-pink);
+            border: 2px solid var(--primary-pink);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--pink-pastel);
+        }
+
+        .btn-green {
+            background-color: var(--mint-green);
+            color: var(--white);
+        }
+
+        .btn-green:hover {
+            background-color: var(--mint-light);
+            color: var(--black);
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            cursor: pointer;
+            border: 2px solid var(--pink-pastel);
+        }
+
+        /* Main Content */
+        main {
+            min-height: calc(100vh - 200px);
+            padding: 30px 0;
+        }
+
+        /* Homepage - Discovery */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--black);
+        }
+
+        .section-link {
+            color: var(--primary-pink);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .title-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .title-card {
+            background-color: var(--white);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .title-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .title-poster {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .title-info {
+            padding: 15px;
+        }
+
+        .title-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .title-meta {
+            color: var(--gray-dark);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .title-type {
+            background-color: var(--pink-pastel);
+            color: var(--primary-pink);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        .title-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #FFC107;
+            font-weight: 600;
+        }
+
+        /* Genre Tags */
+        .genre-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .genre-tag {
+            background-color: var(--gray-light);
+            padding: 6px 12px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .genre-tag:hover {
+            background-color: var(--mint-light);
+            color: var(--black);
+        }
+
+        .genre-tag.active {
+            background-color: var(--primary-pink);
+            color: var(--white);
+        }
+
+        /* Title Details Page */
+        .title-detail-header {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .title-poster-large {
+            width: 250px;
+            height: 375px;
+            object-fit: cover;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .title-main-info {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .title-title {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: var(--black);
+        }
+
+        .title-alt {
+            color: var(--gray-dark);
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+
+        .title-actions {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .rating-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .rating-average {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--black);
+        }
+
+        .rating-stars {
+            display: flex;
+            gap: 3px;
+            color: #FFC107;
+            font-size: 1.5rem;
+        }
+
+        .rating-count {
+            color: var(--gray-dark);
+        }
+
+        .metadata-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .metadata-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .metadata-label {
+            font-size: 0.9rem;
+            color: var(--gray-dark);
+            margin-bottom: 5px;
+        }
+
+        .metadata-value {
+            font-weight: 600;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid var(--gray-medium);
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 15px 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+        }
+
+        .tab:hover {
+            color: var(--primary-pink);
+        }
+
+        .tab.active {
+            color: var(--primary-pink);
+            border-bottom: 3px solid var(--primary-pink);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Cast Grid */
+        .cast-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .cast-card {
+            text-align: center;
+        }
+
+        .cast-image {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: block;
+            border: 3px solid var(--pink-pastel);
+        }
+
+        .cast-name {
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .cast-character {
+            color: var(--gray-dark);
+            font-size: 0.9rem;
+        }
+
+        /* Reviews */
+        .review-card {
+            background-color: var(--white);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            align-items: flex-start;
+        }
+
+        .review-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .review-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .review-username {
+            font-weight: 700;
+        }
+
+        .review-date {
+            color: var(--gray-dark);
+            font-size: 0.9rem;
+        }
+
+        .review-rating {
+            color: #FFC107;
+            font-weight: 700;
+        }
+
+        .review-content {
+            margin-bottom: 15px;
+        }
+
+        .review-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .review-like {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--gray-dark);
+            cursor: pointer;
+        }
+
+        .review-like.active {
+            color: var(--primary-pink);
+        }
+
+        /* Discussion */
+        .discussion-card {
+            background-color: var(--white);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .discussion-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+
+        .discussion-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .discussion-meta {
+            display: flex;
+            gap: 15px;
+            color: var(--gray-dark);
+            font-size: 0.9rem;
+        }
+
+        .discussion-votes {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .vote-btn {
+            background: none;
+            border: none;
+            color: var(--gray-dark);
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .vote-btn:hover {
+            color: var(--primary-pink);
+        }
+
+        .upvote.active {
+            color: var(--primary-pink);
+        }
+
+        .downvote.active {
+            color: #6C757D;
+        }
+
+        .vote-count {
+            font-weight: 700;
+        }
+
+        /* Forms */
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--white);
+            border-radius: var(--radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .form-title {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: var(--primary-pink);
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--black);
+        }
+
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--gray-medium);
+            border-radius: var(--radius-small);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--primary-pink);
+        }
+
+        .form-textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .form-col {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .multi-select {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .select-option {
+            background-color: var(--gray-light);
+            padding: 8px 15px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .select-option:hover {
+            background-color: var(--pink-pastel);
+        }
+
+        .select-option.selected {
+            background-color: var(--primary-pink);
+            color: var(--white);
+        }
+
+        .cast-form {
+            background-color: var(--gray-light);
+            padding: 20px;
+            border-radius: var(--radius-small);
+            margin-bottom: 20px;
+        }
+
+        .cast-form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .cast-form-input {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        /* User Profile */
+        .profile-header {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .profile-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid var(--pink-pastel);
+        }
+
+        .profile-info {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .profile-username {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: var(--black);
+        }
+
+        .profile-joined {
+            color: var(--gray-dark);
+            margin-bottom: 20px;
+        }
+
+        .profile-stats {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary-pink);
+        }
+
+        .stat-label {
+            color: var(--gray-dark);
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--pink-pastel);
+            padding: 40px 0 20px;
+            margin-top: 60px;
+        }
+
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .footer-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--black);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .footer-link {
+            color: var(--gray-dark);
+            transition: var(--transition);
+        }
+
+        .footer-link:hover {
+            color: var(--primary-pink);
+        }
+
+        .copyright {
+            text-align: center;
+            color: var(--gray-dark);
+            padding-top: 20px;
+            border-top: 1px solid var(--gray-medium);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .nav-links, .user-actions {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .title-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 15px;
+            }
+            
+            .title-poster-large {
+                width: 200px;
+                height: 300px;
+            }
+            
+            .title-title {
+                font-size: 2rem;
+            }
+            
+            .header-container {
+                padding: 0 15px;
+            }
+            
+            .container {
+                padding: 0 15px;
+            }
+            
+            .search-input {
+                width: 150px;
+            }
+            
+            .search-input:focus {
+                width: 180px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .title-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+            
+            .title-poster {
+                height: 180px;
+            }
+            
+            .title-poster-large {
+                width: 100%;
+                height: auto;
+                max-height: 400px;
+            }
+            
+            .title-title {
+                font-size: 1.8rem;
+            }
+            
+            .form-container {
+                padding: 20px;
+            }
+        }
+
+        /* PWA Installation */
+        .pwa-install {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--primary-pink);
+            color: var(--white);
+            padding: 15px 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-hover);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+            cursor: pointer;
+        }
+
+        /* Loading Spinner */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--pink-pastel);
+            border-top: 4px solid var(--primary-pink);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <div class="logo-icon">K</div>
+                <span>Kojo</span>
+            </div>
+            
+            <nav class="nav-links">
+                <a href="#" class="nav-link active" data-page="home">Discover</a>
+                <a href="#" class="nav-link" data-page="browse">Browse</a>
+                <a href="#" class="nav-link" data-page="discussions">Discussions</a>
+                <a href="#" class="nav-link" data-page="lists">Lists</a>
+            </nav>
+            
+            <div class="user-actions">
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-input" placeholder="Search titles...">
+                </div>
+                <button class="btn btn-primary" id="addTitleBtn">
+                    <i class="fas fa-plus"></i> Add Title
+                </button>
+                <img src="https://ui-avatars.com/api/?name=Kojo+User&background=FF7BAC&color=fff" alt="User" class="user-avatar" id="userAvatar">
+            </div>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content (dynamically loaded) -->
+    <main id="mainContent">
+        <!-- Homepage content will be loaded here -->
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-section">
+                    <h3 class="footer-title">Kojo</h3>
+                    <p>Community-driven platform for discovering Korean dramas, Japanese dramas, and Asian movies.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="footer-title">Explore</h3>
+                    <div class="footer-links">
+                        <a href="#" class="footer-link" data-page="home">Discover</a>
+                        <a href="#" class="footer-link" data-page="browse">Browse All</a>
+                        <a href="#" class="footer-link" data-page="trending">Trending</a>
+                        <a href="#" class="footer-link" data-page="genres">Genres</a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="footer-title">Community</h3>
+                    <div class="footer-links">
+                        <a href="#" class="footer-link" data-page="discussions">Discussions</a>
+                        <a href="#" class="footer-link" data-page="reviews">Recent Reviews</a>
+                        <a href="#" class="footer-link" data-page="leaderboard">Top Reviewers</a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="footer-title">Support</h3>
+                    <div class="footer-links">
+                        <a href="#" class="footer-link" data-page="help">Help & FAQ</a>
+                        <a href="#" class="footer-link" data-page="about">About Kojo</a>
+                        <a href="#" class="footer-link" data-page="contact">Contact</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 Kojo. Community-driven Asian entertainment discovery.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- PWA Install Prompt -->
+    <div class="pwa-install hidden" id="pwaInstall">
+        <i class="fas fa-download"></i>
+        <div>
+            <div>Install Kojo App</div>
+            <small>For better experience</small>
+        </div>
+        <button class="btn btn-outline" id="installBtn" style="margin-left: 10px;">Install</button>
+    </div>
+
+    <!-- Templates -->
+    <template id="homeTemplate">
+        <div class="container">
+            <!-- Hero Section -->
+            <section class="hero" style="margin-bottom: 40px;">
+                <h1 style="font-size: 3rem; margin-bottom: 15px; color: var(--primary-pink);">Discover Asian Entertainment</h1>
+                <p style="font-size: 1.2rem; color: var(--gray-dark); max-width: 700px; margin-bottom: 30px;">
+                    Track, review, and discuss Korean dramas, Japanese dramas, and Asian movies with a community of fans.
+                </p>
+                <div class="genre-tags" id="trendingGenres"></div>
+            </section>
+            
+            <!-- Trending Section -->
+            <section style="margin-bottom: 50px;">
+                <div class="section-header">
+                    <h2 class="section-title">Trending Now</h2>
+                    <a href="#" class="section-link" data-page="trending">
+                        See All <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="title-grid" id="trendingTitles"></div>
+            </section>
+            
+            <!-- Recently Added -->
+            <section style="margin-bottom: 50px;">
+                <div class="section-header">
+                    <h2 class="section-title">Recently Added</h2>
+                    <a href="#" class="section-link" data-page="browse">
+                        See All <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="title-grid" id="recentTitles"></div>
+            </section>
+            
+            <!-- Top Rated -->
+            <section style="margin-bottom: 50px;">
+                <div class="section-header">
+                    <h2 class="section-title">Top Rated</h2>
+                    <a href="#" class="section-link" data-page="top-rated">
+                        See All <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="title-grid" id="topRatedTitles"></div>
+            </section>
+            
+            <!-- Discussion Highlights -->
+            <section>
+                <div class="section-header">
+                    <h2 class="section-title">Hot Discussions</h2>
+                    <a href="#" class="section-link" data-page="discussions">
+                        See All <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div id="hotDiscussions"></div>
+            </section>
+        </div>
+    </template>
+
+    <template id="titleDetailTemplate">
+        <div class="container">
+            <div class="title-detail-header">
+                <img src="" alt="Title Poster" class="title-poster-large" id="detailPoster">
+                <div class="title-main-info">
+                    <h1 class="title-title" id="detailTitle"></h1>
+                    <div class="title-alt" id="detailAltTitle"></div>
+                    
+                    <div class="rating-container">
+                        <div class="rating-average" id="detailRating"></div>
+                        <div class="rating-stars" id="detailStars"></div>
+                        <div class="rating-count" id="detailRatingCount"></div>
+                    </div>
+                    
+                    <div class="title-actions">
+                        <button class="btn btn-primary" id="watchBtn">
+                            <i class="fas fa-eye"></i> <span id="watchText">Add to Watchlist</span>
+                        </button>
+                        <button class="btn btn-outline" id="favoriteBtn">
+                            <i class="fas fa-heart"></i> <span id="favoriteText">Favorite</span>
+                        </button>
+                        <button class="btn btn-green" id="reviewBtn">
+                            <i class="fas fa-edit"></i> Write Review
+                        </button>
+                    </div>
+                    
+                    <div class="metadata-grid" id="detailMetadata"></div>
+                    
+                    <div class="genre-tags" id="detailGenres"></div>
+                </div>
+            </div>
+            
+            <div class="tabs">
+                <div class="tab active" data-tab="overview">Overview</div>
+                <div class="tab" data-tab="cast">Cast</div>
+                <div class="tab" data-tab="reviews">Reviews</div>
+                <div class="tab" data-tab="discussions">Discussions</div>
+            </div>
+            
+            <div class="tab-content active" id="overviewTab">
+                <h3 style="margin-bottom: 15px;">Synopsis</h3>
+                <p id="detailSynopsis" style="font-size: 1.1rem; line-height: 1.7; margin-bottom: 30px;"></p>
+                
+                <div id="similarTitlesSection">
+                    <h3 style="margin-bottom: 20px;">Similar Titles</h3>
+                    <div class="title-grid" id="similarTitles"></div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="castTab">
+                <div class="cast-grid" id="castGrid"></div>
+            </div>
+            
+            <div class="tab-content" id="reviewsTab">
+                <div id="reviewsContainer"></div>
+                <button class="btn btn-outline" id="writeReviewBtn" style="margin-top: 20px;">
+                    <i class="fas fa-edit"></i> Write Your Review
+                </button>
+            </div>
+            
+            <div class="tab-content" id="discussionsTab">
+                <button class="btn btn-primary" id="newDiscussionBtn" style="margin-bottom: 20px;">
+                    <i class="fas fa-plus"></i> Start New Discussion
+                </button>
+                <div id="discussionsContainer"></div>
+            </div>
+        </div>
+    </template>
+
+    <template id="addTitleTemplate">
+        <div class="form-container">
+            <h2 class="form-title">Add New Title</h2>
+            <form id="addTitleForm">
+                <div class="form-group">
+                    <label class="form-label" for="title">Title *</label>
+                    <input type="text" id="title" class="form-input" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="altTitle">Alternative Titles</label>
+                    <input type="text" id="altTitle" class="form-input" placeholder="Separate with commas">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label class="form-label" for="type">Type *</label>
+                            <select id="type" class="form-select" required>
+                                <option value="">Select type</option>
+                                <option value="Drama">Drama</option>
+                                <option value="Movie">Movie</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label class="form-label" for="country">Country *</label>
+                            <select id="country" class="form-select" required>
+                                <option value="">Select country</option>
+                                <option value="Korea">Korea</option>
+                                <option value="Japan">Japan</option>
+                                <option value="China">China</option>
+                                <option value="Taiwan">Taiwan</option>
+                                <option value="Thailand">Thailand</option>
+                                <option value="India">India</option>
+                                <option value="Philippines">Philippines</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label class="form-label" for="year">Year *</label>
+                            <input type="number" id="year" class="form-input" min="1900" max="2025" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label class="form-label" for="episodes">Episodes (for dramas)</label>
+                            <input type="number" id="episodes" class="form-input" min="1">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="poster">Poster Image URL *</label>
+                    <input type="url" id="poster" class="form-input" required placeholder="https://example.com/poster.jpg">
+                    <small>We recommend using images from free sources like Wikimedia Commons</small>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="synopsis">Synopsis *</label>
+                    <textarea id="synopsis" class="form-textarea" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Genres / Tags *</label>
+                    <div class="multi-select" id="genresContainer">
+                        <!-- Genres will be populated by JavaScript -->
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Cast</label>
+                    <div id="castContainer">
+                        <!-- Cast forms will be added here -->
+                    </div>
+                    <button type="button" class="btn btn-outline" id="addCastBtn">
+                        <i class="fas fa-plus"></i> Add Cast Member
+                    </button>
+                </div>
+                
+                <div class="form-group" style="margin-top: 30px;">
+                    <button type="submit" class="btn btn-primary" style="width: 100%; padding: 15px; font-size: 1.1rem;">
+                        <i class="fas fa-plus-circle"></i> Add Title to Database
+                    </button>
+                </div>
+            </form>
+        </div>
+    </template>
+
+    <template id="profileTemplate">
+        <div class="container">
+            <div class="profile-header">
+                <img src="https://ui-avatars.com/api/?name=Kojo+User&background=FF7BAC&color=fff&size=150" alt="User" class="profile-avatar" id="profileAvatar">
+                <div class="profile-info">
+                    <h1 class="profile-username" id="profileUsername">Kojo User</h1>
+                    <div class="profile-joined" id="profileJoined">Member since 2023</div>
+                    
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <div class="stat-value" id="statWatched">0</div>
+                            <div class="stat-label">Watched</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="statReviews">0</div>
+                            <div class="stat-label">Reviews</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="statLists">0</div>
+                            <div class="stat-label">Lists</div>
+                        </div>
+                    </div>
+                    
+                    <div class="title-actions">
+                        <button class="btn btn-primary" id="editProfileBtn">
+                            <i class="fas fa-edit"></i> Edit Profile
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tabs">
+                <div class="tab active" data-tab="watchlist">Watchlist</div>
+                <div class="tab" data-tab="reviews">My Reviews</div>
+                <div class="tab" data-tab="lists">My Lists</div>
+                <div class="tab" data-tab="activity">Activity</div>
+            </div>
+            
+            <div class="tab-content active" id="watchlistTab">
+                <div class="title-grid" id="userWatchlist"></div>
+            </div>
+            
+            <div class="tab-content" id="reviewsTab">
+                <div id="userReviews"></div>
+            </div>
+            
+            <div class="tab-content" id="listsTab">
+                <button class="btn btn-primary" id="createListBtn" style="margin-bottom: 20px;">
+                    <i class="fas fa-plus"></i> Create New List
+                </button>
+                <div id="userLists"></div>
+            </div>
+            
+            <div class="tab-content" id="activityTab">
+                <div id="userActivity"></div>
+            </div>
+        </div>
+    </template>
+
+    <!-- JavaScript -->
+    <script>
+        // Data Models and Storage
+        class KojoDatabase {
+            constructor() {
+                this.initializeStorage();
+                this.loadData();
+            }
+            
+            initializeStorage() {
+                // Initialize all storage keys if they don't exist
+                const keys = [
+                    'kojo_titles', 'kojo_users', 'kojo_reviews', 'kojo_discussions',
+                    'kojo_lists', 'kojo_activity', 'kojo_cast', 'kojo_watchlist'
+                ];
+                
+                keys.forEach(key => {
+                    if (!localStorage.getItem(key)) {
+                        localStorage.setItem(key, JSON.stringify([]));
+                    }
+                });
+                
+                // Initialize current user if not exists
+                if (!localStorage.getItem('kojo_currentUser')) {
+                    localStorage.setItem('kojo_currentUser', JSON.stringify({
+                        id: 1,
+                        username: 'Kojo User',
+                        avatar: 'https://ui-avatars.com/api/?name=Kojo+User&background=FF7BAC&color=fff',
+                        bio: 'Asian entertainment enthusiast',
+                        joinedDate: new Date().toISOString()
+                    }));
+                }
+                
+                // Add sample data if empty
+                if (JSON.parse(localStorage.getItem('kojo_titles')).length === 0) {
+                    this.addSampleData();
+                }
+            }
+            
+            addSampleData() {
+                const sampleTitles = [
+                    {
+                        id: 1,
+                        title: "Crash Landing on You",
+                        altTitles: ["사랑의 불시착"],
+                        type: "Drama",
+                        country: "Korea",
+                        year: 2019,
+                        episodes: 16,
+                        poster: "https://upload.wikimedia.org/wikipedia/en/thumb/6/6b/Crash_Landing_on_You.jpg/250px-Crash_Landing_on_You.jpg",
+                        synopsis: "A South Korean heiress crash-lands in North Korea and falls in love with an army officer.",
+                        genres: ["Romance", "Drama", "Comedy"],
+                        cast: [
+                            { actorId: 1, characterName: "Yoon Se-ri", roleType: "Main" },
+                            { actorId: 2, characterName: "Ri Jeong-hyeok", roleType: "Main" }
+                        ],
+                        addedBy: 1,
+                        dateAdded: new Date().toISOString(),
+                        rating: 4.7,
+                        ratingCount: 1250
+                    },
+                    {
+                        id: 2,
+                        title: "My Name",
+                        altTitles: ["마이 네임"],
+                        type: "Drama",
+                        country: "Korea",
+                        year: 2021,
+                        episodes: 8,
+                        poster: "https://upload.wikimedia.org/wikipedia/en/thumb/4/4d/My_Name_%282021_TV_series%29.jpg/250px-My_Name_%282021_TV_series%29.jpg",
+                        synopsis: "A woman joins a crime syndicate to avenge her father's death and becomes a police officer.",
+                        genres: ["Action", "Thriller", "Crime"],
+                        cast: [
+                            { actorId: 3, characterName: "Yoon Ji-woo", roleType: "Main" },
+                            { actorId: 4, characterName: "Choi Mu-jin", roleType: "Main" }
+                        ],
+                        addedBy: 1,
+                        dateAdded: new Date().toISOString(),
+                        rating: 4.3,
+                        ratingCount: 890
+                    },
+                    {
+                        id: 3,
+                        title: "Spirited Away",
+                        altTitles: ["千と千尋の神隠し"],
+                        type: "Movie",
+                        country: "Japan",
+                        year: 2001,
+                        episodes: null,
+                        poster: "https://upload.wikimedia.org/wikipedia/en/thumb/d/db/Spirited_Away_Japanese_poster.png/220px-Spirited_Away_Japanese_poster.png",
+                        synopsis: "A young girl wanders into a world ruled by gods, witches, and spirits.",
+                        genres: ["Fantasy", "Adventure", "Animation"],
+                        cast: [
+                            { actorId: 5, characterName: "Chihiro Ogino", roleType: "Main" },
+                            { actorId: 6, characterName: "Haku", roleType: "Main" }
+                        ],
+                        addedBy: 1,
+                        dateAdded: new Date().toISOString(),
+                        rating: 4.8,
+                        ratingCount: 2100
+                    },
+                    {
+                        id: 4,
+                        title: "Alice in Borderland",
+                        altTitles: ["今際の国のアリス"],
+                        type: "Drama",
+                        country: "Japan",
+                        year: 2020,
+                        episodes: 8,
+                        poster: "https://upload.wikimedia.org/wikipedia/en/thumb/5/5a/Alice_in_Borderland.jpeg/250px-Alice_in_Borderland.jpeg",
+                        synopsis: "A gamer finds himself in a parallel Tokyo where he must compete in dangerous games to survive.",
+                        genres: ["Thriller", "Sci-Fi", "Mystery"],
+                        cast: [
+                            { actorId: 7, characterName: "Ryohei Arisu", roleType: "Main" },
+                            { actorId: 8, characterName: "Yuzuha Usagi", roleType: "Main" }
+                        ],
+                        addedBy: 1,
+                        dateAdded: new Date().toISOString(),
+                        rating: 4.4,
+                        ratingCount: 1100
+                    },
+                    {
+                        id: 5,
+                        title: "Parasite",
+                        altTitles: ["기생충"],
+                        type: "Movie",
+                        country: "Korea",
+                        year: 2019,
+                        episodes: null,
+                        poster: "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Parasite_%282019_film%29.png/220px-Parasite_%282019_film%29.png",
+                        synopsis: "A poor family schemes to become employed by a wealthy family by infiltrating their household.",
+                        genres: ["Thriller", "Comedy", "Drama"],
+                        cast: [
+                            { actorId: 9, characterName: "Kim Ki-taek", roleType: "Main" },
+                            { actorId: 10, characterName: "Park Dong-ik", roleType: "Main" }
+                        ],
+                        addedBy: 1,
+                        dateAdded: new Date().toISOString(),
+                        rating: 4.6,
+                        ratingCount: 1800
+                    }
+                ];
+                
+                const sampleCast = [
+                    { id: 1, name: "Son Ye-jin", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Son_Ye-jin_2018.jpg/220px-Son_Ye-jin_2018.jpg" },
+                    { id: 2, name: "Hyun Bin", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Hyun_Bin_2018.jpg/220px-Hyun_Bin_2018.jpg" },
+                    { id: 3, name: "Han So-hee", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Han_So-hee_2021.jpg/220px-Han_So-hee_2021.jpg" },
+                    { id: 4, name: "Park Hee-soon", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Park_Hee-soon_2018.jpg/220px-Park_Hee-soon_2018.jpg" },
+                    { id: 5, name: "Rumi Hiiragi", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Rumi_Hiiragi_2015.jpg/220px-Rumi_Hiiragi_2015.jpg" },
+                    { id: 6, name: "Miyu Irino", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Miyu_Irino_2019.jpg/220px-Miyu_Irino_2019.jpg" },
+                    { id: 7, name: "Kento Yamazaki", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Kento_Yamazaki_2019.png/220px-Kento_Yamazaki_2019.png" },
+                    { id: 8, name: "Tao Tsuchiya", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Tao_Tsuchiya_2017.jpg/220px-Tao_Tsuchiya_2017.jpg" },
+                    { id: 9, name: "Song Kang-ho", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Song_Kang-ho_2017.jpg/220px-Song_Kang-ho_2017.jpg" },
+                    { id: 10, name: "Lee Sun-kyun", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Lee_Sun-kyun_2018.jpg/220px-Lee_Sun-kyun_2018.jpg" }
+                ];
+                
+                localStorage.setItem('kojo_titles', JSON.stringify(sampleTitles));
+                localStorage.setItem('kojo_cast', JSON.stringify(sampleCast));
+            }
+            
+            loadData() {
+                this.titles = JSON.parse(localStorage.getItem('kojo_titles'));
+                this.users = JSON.parse(localStorage.getItem('kojo_users'));
+                this.reviews = JSON.parse(localStorage.getItem('kojo_reviews'));
+                this.discussions = JSON.parse(localStorage.getItem('kojo_discussions'));
+                this.lists = JSON.parse(localStorage.getItem('kojo_lists'));
+                this.activity = JSON.parse(localStorage.getItem('kojo_activity'));
+                this.cast = JSON.parse(localStorage.getItem('kojo_cast'));
+                this.watchlist = JSON.parse(localStorage.getItem('kojo_watchlist'));
+                this.currentUser = JSON.parse(localStorage.getItem('kojo_currentUser'));
+            }
+            
+            saveData() {
+                localStorage.setItem('kojo_titles', JSON.stringify(this.titles));
+                localStorage.setItem('kojo_users', JSON.stringify(this.users));
+                localStorage.setItem('kojo_reviews', JSON.stringify(this.reviews));
+                localStorage.setItem('kojo_discussions', JSON.stringify(this.discussions));
+                localStorage.setItem('kojo_lists', JSON.stringify(this.lists));
+                localStorage.setItem('kojo_activity', JSON.stringify(this.activity));
+                localStorage.setItem('kojo_cast', JSON.stringify(this.cast));
+                localStorage.setItem('kojo_watchlist', JSON.stringify(this.watchlist));
+                localStorage.setItem('kojo_currentUser', JSON.stringify(this.currentUser));
+            }
+            
+            // Title methods
+            addTitle(titleData) {
+                const newId = this.titles.length > 0 ? Math.max(...this.titles.map(t => t.id)) + 1 : 1;
+                const title = {
+                    id: newId,
+                    ...titleData,
+                    rating: 0,
+                    ratingCount: 0,
+                    dateAdded: new Date().toISOString(),
+                    addedBy: this.currentUser.id
+                };
+                this.titles.push(title);
+                this.saveData();
+                return title;
+            }
+            
+            getTitle(id) {
+                return this.titles.find(t => t.id === id);
+            }
+            
+            getTitles(limit = null) {
+                let titles = [...this.titles];
+                if (limit) {
+                    return titles.slice(0, limit);
+                }
+                return titles;
+            }
+            
+            getTrendingTitles(limit = 6) {
+                // Sort by rating count (engagement)
+                return [...this.titles]
+                    .sort((a, b) => b.ratingCount - a.ratingCount)
+                    .slice(0, limit);
+            }
+            
+            getRecentTitles(limit = 6) {
+                return [...this.titles]
+                    .sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded))
+                    .slice(0, limit);
+            }
+            
+            getTopRatedTitles(limit = 6) {
+                return [...this.titles]
+                    .filter(t => t.ratingCount > 0)
+                    .sort((a, b) => b.rating - a.rating)
+                    .slice(0, limit);
+            }
+            
+            searchTitles(query, filters = {}) {
+                let results = this.titles.filter(title => {
+                    const matchesQuery = !query || 
+                        title.title.toLowerCase().includes(query.toLowerCase()) ||
+                        (title.altTitles && title.altTitles.some(alt => 
+                            alt.toLowerCase().includes(query.toLowerCase())));
+                    
+                    const matchesType = !filters.type || title.type === filters.type;
+                    const matchesCountry = !filters.country || title.country === filters.country;
+                    const matchesGenre = !filters.genre || title.genres.includes(filters.genre);
+                    const matchesYear = !filters.year || title.year == filters.year;
+                    
+                    return matchesQuery && matchesType && matchesCountry && matchesGenre && matchesYear;
+                });
+                
+                return results;
+            }
+            
+            // Review methods
+            addReview(titleId, rating, text) {
+                const newId = this.reviews.length > 0 ? Math.max(...this.reviews.map(r => r.id)) + 1 : 1;
+                const review = {
+                    id: newId,
+                    titleId,
+                    userId: this.currentUser.id,
+                    rating,
+                    text,
+                    date: new Date().toISOString(),
+                    likes: []
+                };
+                this.reviews.push(review);
+                
+                // Update title rating
+                this.updateTitleRating(titleId);
+                this.saveData();
+                return review;
+            }
+            
+            updateTitleRating(titleId) {
+                const titleReviews = this.reviews.filter(r => r.titleId === titleId);
+                if (titleReviews.length === 0) return;
+                
+                const avgRating = titleReviews.reduce((sum, r) => sum + r.rating, 0) / titleReviews.length;
+                const title = this.getTitle(titleId);
+                title.rating = parseFloat(avgRating.toFixed(1));
+                title.ratingCount = titleReviews.length;
+                this.saveData();
+            }
+            
+            getReviewsForTitle(titleId) {
+                return this.reviews.filter(r => r.titleId === titleId);
+            }
+            
+            // Discussion methods
+            addDiscussion(titleId, board, title, text) {
+                const newId = this.discussions.length > 0 ? Math.max(...this.discussions.map(d => d.id)) + 1 : 1;
+                const discussion = {
+                    id: newId,
+                    titleId: titleId || null,
+                    board,
+                    title,
+                    userId: this.currentUser.id,
+                    text,
+                    date: new Date().toISOString(),
+                    upvotes: [],
+                    downvotes: [],
+                    comments: []
+                };
+                this.discussions.push(discussion);
+                this.saveData();
+                return discussion;
+            }
+            
+            getDiscussionsForTitle(titleId) {
+                return this.discussions.filter(d => d.titleId === titleId);
+            }
+            
+            getDiscussionsForBoard(board) {
+                return this.discussions.filter(d => d.board === board);
+            }
+            
+            getHotDiscussions(limit = 3) {
+                return [...this.discussions]
+                    .sort((a, b) => (b.upvotes.length - b.downvotes.length) - (a.upvotes.length - a.downvotes.length))
+                    .slice(0, limit);
+            }
+            
+            // Watchlist methods
+            toggleWatchlist(titleId, status) {
+                const existing = this.watchlist.find(w => w.titleId === titleId && w.userId === this.currentUser.id);
+                
+                if (existing) {
+                    existing.status = status;
+                } else {
+                    const newId = this.watchlist.length > 0 ? Math.max(...this.watchlist.map(w => w.id)) + 1 : 1;
+                    this.watchlist.push({
+                        id: newId,
+                        titleId,
+                        userId: this.currentUser.id,
+                        status,
+                        dateAdded: new Date().toISOString()
+                    });
+                }
+                this.saveData();
+            }
+            
+            getWatchlistStatus(titleId) {
+                const item = this.watchlist.find(w => w.titleId === titleId && w.userId === this.currentUser.id);
+                return item ? item.status : 'none';
+            }
+            
+            getUserWatchlist(userId) {
+                return this.watchlist.filter(w => w.userId === userId);
+            }
+            
+            // Cast methods
+            getCastMember(id) {
+                return this.cast.find(c => c.id === id);
+            }
+            
+            // Genre methods
+            getAllGenres() {
+                const allGenres = new Set();
+                this.titles.forEach(title => {
+                    title.genres.forEach(genre => allGenres.add(genre));
+                });
+                return Array.from(allGenres);
+            }
+        }
+
+        // UI Application
+        class KojoApp {
+            constructor() {
+                this.db = new KojoDatabase();
+                this.currentPage = 'home';
+                this.currentTitleId = null;
+                this.init();
+            }
+            
+            init() {
+                this.bindEvents();
+                this.renderHome();
+                this.setupServiceWorker();
+            }
+            
+            bindEvents() {
+                // Navigation
+                document.addEventListener('click', (e) => {
+                    // Navigation links
+                    if (e.target.matches('.nav-link, .footer-link') || e.target.closest('.nav-link, .footer-link')) {
+                        e.preventDefault();
+                        const link = e.target.closest('.nav-link, .footer-link');
+                        const page = link.dataset.page;
+                        this.navigateTo(page);
+                    }
+                    
+                    // Logo click
+                    if (e.target.closest('.logo')) {
+                        e.preventDefault();
+                        this.navigateTo('home');
+                    }
+                    
+                    // Mobile menu
+                    if (e.target.matches('#mobileMenuBtn') || e.target.closest('#mobileMenuBtn')) {
+                        this.toggleMobileMenu();
+                    }
+                    
+                    // Add title button
+                    if (e.target.matches('#addTitleBtn') || e.target.closest('#addTitleBtn')) {
+                        e.preventDefault();
+                        this.renderAddTitle();
+                    }
+                    
+                    // User avatar
+                    if (e.target.matches('#userAvatar') || e.target.closest('#userAvatar')) {
+                        e.preventDefault();
+                        this.renderProfile();
+                    }
+                    
+                    // Title cards
+                    if (e.target.closest('.title-card')) {
+                        const card = e.target.closest('.title-card');
+                        const titleId = parseInt(card.dataset.id);
+                        if (titleId) {
+                            this.renderTitleDetail(titleId);
+                        }
+                    }
+                    
+                    // Tabs
+                    if (e.target.matches('.tab') || e.target.closest('.tab')) {
+                        const tab = e.target.closest('.tab');
+                        const tabName = tab.dataset.tab;
+                        const container = tab.closest('.container');
+                        this.switchTab(container, tabName);
+                    }
+                    
+                    // Genre tags
+                    if (e.target.matches('.genre-tag') || e.target.closest('.genre-tag')) {
+                        const tag = e.target.closest('.genre-tag');
+                        const genre = tag.dataset.genre;
+                        if (genre) {
+                            this.browseByGenre(genre);
+                        }
+                    }
+                });
+                
+                // Search
+                const searchInput = document.querySelector('.search-input');
+                if (searchInput) {
+                    searchInput.addEventListener('keyup', (e) => {
+                        if (e.key === 'Enter') {
+                            this.searchTitles(e.target.value);
+                        }
+                    });
+                }
+                
+                // Form submission
+                document.addEventListener('submit', (e) => {
+                    if (e.target.matches('#addTitleForm')) {
+                        e.preventDefault();
+                        this.handleAddTitleForm(e.target);
+                    }
+                });
+                
+                // PWA Install
+                const installBtn = document.getElementById('installBtn');
+                if (installBtn) {
+                    installBtn.addEventListener('click', () => {
+                        this.installPWA();
+                    });
+                }
+            }
+            
+            navigateTo(page) {
+                this.currentPage = page;
+                
+                // Update active nav link
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.toggle('active', link.dataset.page === page);
+                });
+                
+                // Render the page
+                switch(page) {
+                    case 'home':
+                        this.renderHome();
+                        break;
+                    case 'browse':
+                        this.renderBrowse();
+                        break;
+                    case 'discussions':
+                        this.renderDiscussions();
+                        break;
+                    case 'lists':
+                        this.renderLists();
+                        break;
+                    case 'profile':
+                        this.renderProfile();
+                        break;
+                    default:
+                        this.renderHome();
+                }
+            }
+            
+            renderHome() {
+                const template = document.getElementById('homeTemplate');
+                const content = template.content.cloneNode(true);
+                document.getElementById('mainContent').innerHTML = '';
+                document.getElementById('mainContent').appendChild(content);
+                
+                // Render trending genres
+                const genres = this.db.getAllGenres().slice(0, 8);
+                const genresContainer = document.getElementById('trendingGenres');
+                genres.forEach(genre => {
+                    const tag = document.createElement('div');
+                    tag.className = 'genre-tag';
+                    tag.textContent = genre;
+                    tag.dataset.genre = genre;
+                    genresContainer.appendChild(tag);
+                });
+                
+                // Render trending titles
+                this.renderTitleGrid('trendingTitles', this.db.getTrendingTitles(6));
+                
+                // Render recent titles
+                this.renderTitleGrid('recentTitles', this.db.getRecentTitles(6));
+                
+                // Render top rated titles
+                this.renderTitleGrid('topRatedTitles', this.db.getTopRatedTitles(6));
+                
+                // Render hot discussions
+                this.renderHotDiscussions('hotDiscussions', this.db.getHotDiscussions(3));
+            }
+            
+            renderTitleGrid(containerId, titles) {
+                const container = document.getElementById(containerId);
+                if (!container) return;
+                
+                container.innerHTML = '';
+                
+                titles.forEach(title => {
+                    const card = document.createElement('div');
+                    card.className = 'title-card';
+                    card.dataset.id = title.id;
+                    
+                    // Calculate star rating display
+                    const fullStars = Math.floor(title.rating);
+                    const halfStar = title.rating % 1 >= 0.5;
+                    const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+                    
+                    let starsHtml = '';
+                    for (let i = 0; i < fullStars; i++) starsHtml += '<i class="fas fa-star"></i>';
+                    if (halfStar) starsHtml += '<i class="fas fa-star-half-alt"></i>';
+                    for (let i = 0; i < emptyStars; i++) starsHtml += '<i class="far fa-star"></i>';
+                    
+                    card.innerHTML = `
+                        <img src="${title.poster}" alt="${title.title}" class="title-poster" onerror="this.src='https://via.placeholder.com/180x250/FFE4EC/FF7BAC?text=No+Poster'">
+                        <div class="title-info">
+                            <h3 class="title-name">${title.title}</h3>
+                            <div class="title-meta">
+                                <span class="title-type">${title.type}</span>
+                                <span>${title.year}</span>
+                            </div>
+                            <div class="title-rating">
+                                ${starsHtml}
+                                <span>${title.rating > 0 ? title.rating.toFixed(1) : 'N/A'}</span>
+                            </div>
+                        </div>
+                    `;
+                    
+                    container.appendChild(card);
+                });
+            }
+            
+            renderHotDiscussions(containerId, discussions) {
+                const container = document.getElementById(containerId);
+                if (!container) return;
+                
+                container.innerHTML = '';
+                
+                discussions.forEach(discussion => {
+                    const title = discussion.titleId ? 
+                        this.db.getTitle(discussion.titleId) : 
+                        { title: discussion.board + ' Discussion' };
+                    
+                    const card = document.createElement('div');
+                    card.className = 'discussion-card';
+                    
+                    card.innerHTML = `
+                        <div class="discussion-header">
+                            <div>
+                                <h3 class="discussion-title">${discussion.title}</h3>
+                                <div class="discussion-meta">
+                                    <span>${title.title}</span>
+                                    <span>•</span>
+                                    <span>${new Date(discussion.date).toLocaleDateString()}</span>
+                                </div>
+                            </div>
+                            <div class="discussion-votes">
+                                <button class="vote-btn upvote"><i class="fas fa-arrow-up"></i></button>
+                                <span class="vote-count">${discussion.upvotes.length - discussion.downvotes.length}</span>
+                                <button class="vote-btn downvote"><i class="fas fa-arrow-down"></i></button>
+                            </div>
+                        </div>
+                        <p>${discussion.text.substring(0, 150)}${discussion.text.length > 150 ? '...' : ''}</p>
+                    `;
+                    
+                    container.appendChild(card);
+                });
+            }
+            
+            renderTitleDetail(titleId) {
+                this.currentTitleId = titleId;
+                const title = this.db.getTitle(titleId);
+                if (!title) return;
+                
+                const template = document.getElementById('titleDetailTemplate');
+                const content = template.content.cloneNode(true);
+                document.getElementById('mainContent').innerHTML = '';
+                document.getElementById('mainContent').appendChild(content);
+                
+                // Set title data
+                document.getElementById('detailTitle').textContent = title.title;
+                document.getElementById('detailAltTitle').textContent = title.altTitles ? title.altTitles.join(', ') : '';
+                document.getElementById('detailPoster').src = title.poster;
+                document.getElementById('detailPoster').onerror = function() {
+                    this.src = 'https://via.placeholder.com/250x375/FFE4EC/FF7BAC?text=No+Poster';
+                };
+                
+                // Rating
+                document.getElementById('detailRating').textContent = title.rating > 0 ? title.rating.toFixed(1) : 'N/A';
+                document.getElementById('detailRatingCount').textContent = `(${title.ratingCount} reviews)`;
+                
+                // Stars
+                const starsContainer = document.getElementById('detailStars');
+                starsContainer.innerHTML = '';
+                const fullStars = Math.floor(title.rating);
+                const halfStar = title.rating % 1 >= 0.5;
+                const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+                
+                for (let i = 0; i < fullStars; i++) {
+                    const star = document.createElement('i');
+                    star.className = 'fas fa-star';
+                    starsContainer.appendChild(star);
+                }
+                if (halfStar) {
+                    const star = document.createElement('i');
+                    star.className = 'fas fa-star-half-alt';
+                    starsContainer.appendChild(star);
+                }
+                for (let i = 0; i < emptyStars; i++) {
+                    const star = document.createElement('i');
+                    star.className = 'far fa-star';
+                    starsContainer.appendChild(star);
+                }
+                
+                // Watchlist status
+                const watchStatus = this.db.getWatchlistStatus(titleId);
+                const watchBtn = document.getElementById('watchBtn');
+                const watchText = document.getElementById('watchText');
+                const favoriteBtn = document.getElementById('favoriteBtn');
+                const favoriteText = document.getElementById('favoriteText');
+                
+                if (watchStatus === 'watching') {
+                    watchText.textContent = 'Watching';
+                    watchBtn.innerHTML = '<i class="fas fa-eye"></i> Watching';
+                } else if (watchStatus === 'watched') {
+                    watchText.textContent = 'Watched';
+                    watchBtn.innerHTML = '<i class="fas fa-check"></i> Watched';
+                } else if (watchStatus === 'plan') {
+                    watchText.textContent = 'Plan to Watch';
+                    watchBtn.innerHTML = '<i class="fas fa-clock"></i> Plan to Watch';
+                } else {
+                    watchText.textContent = 'Add to Watchlist';
+                    watchBtn.innerHTML = '<i class="fas fa-plus"></i> Add to Watchlist';
+                }
+                
+                // Watchlist button click
+                watchBtn.addEventListener('click', () => {
+                    const statuses = ['none', 'plan', 'watching', 'watched'];
+                    const currentIndex = statuses.indexOf(watchStatus);
+                    const nextStatus = statuses[(currentIndex + 1) % statuses.length];
+                    
+                    this.db.toggleWatchlist(titleId, nextStatus === 'none' ? 'plan' : nextStatus);
+                    this.renderTitleDetail(titleId); // Refresh
+                });
+                
+                // Favorite button click (placeholder functionality)
+                favoriteBtn.addEventListener('click', () => {
+                    alert('Favorite functionality will be implemented in the next update!');
+                });
+                
+                // Review button click
+                document.getElementById('reviewBtn').addEventListener('click', () => {
+                    this.showReviewForm(titleId);
+                });
+                
+                // Metadata
+                const metadataContainer = document.getElementById('detailMetadata');
+                metadataContainer.innerHTML = `
+                    <div class="metadata-item">
+                        <div class="metadata-label">Type</div>
+                        <div class="metadata-value">${title.type}</div>
+                    </div>
+                    <div class="metadata-item">
+                        <div class="metadata-label">Country</div>
+                        <div class="metadata-value">${title.country}</div>
+                    </div>
+                    <div class="metadata-item">
+                        <div class="metadata-label">Year</div>
+                        <div class="metadata-value">${title.year}</div>
+                    </div>
+                    ${title.episodes ? `
+                    <div class="metadata-item">
+                        <div class="metadata-label">Episodes</div>
+                        <div class="metadata-value">${title.episodes}</div>
+                    </div>
+                    ` : ''}
+                `;
+                
+                // Genres
+                const genresContainer = document.getElementById('detailGenres');
+                genresContainer.innerHTML = '';
+                title.genres.forEach(genre => {
+                    const tag = document.createElement('div');
+                    tag.className = 'genre-tag';
+                    tag.textContent = genre;
+                    tag.dataset.genre = genre;
+                    genresContainer.appendChild(tag);
+                });
+                
+                // Synopsis
+                document.getElementById('detailSynopsis').textContent = title.synopsis;
+                
+                // Similar titles (by genre)
+                const similarTitles = this.db.searchTitles('', { genre: title.genres[0] })
+                    .filter(t => t.id !== titleId)
+                    .slice(0, 6);
+                
+                if (similarTitles.length > 0) {
+                    this.renderTitleGrid('similarTitles', similarTitles);
+                } else {
+                    document.getElementById('similarTitlesSection').style.display = 'none';
+                }
+                
+                // Cast
+                this.renderCast(titleId);
+                
+                // Reviews
+                this.renderTitleReviews(titleId);
+                
+                // Discussions
+                this.renderTitleDiscussions(titleId);
+                
+                // Tab events
+                this.setupTabEvents();
+            }
+            
+            renderCast(titleId) {
+                const title = this.db.getTitle(titleId);
+                if (!title) return;
+                
+                const castContainer = document.getElementById('castGrid');
+                if (!castContainer) return;
+                
+                castContainer.innerHTML = '';
+                
+                title.cast.forEach(castItem => {
+                    const castMember = this.db.getCastMember(castItem.actorId);
+                    if (!castMember) return;
+                    
+                    const card = document.createElement('div');
+                    card.className = 'cast-card';
+                    
+                    card.innerHTML = `
+                        <img src="${castMember.image}" alt="${castMember.name}" class="cast-image" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(castMember.name)}&background=FF7BAC&color=fff'">
+                        <div class="cast-name">${castMember.name}</div>
+                        <div class="cast-character">${castItem.characterName}</div>
+                        <div class="cast-character" style="font-size: 0.8rem; color: #6C757D;">${castItem.roleType}</div>
+                    `;
+                    
+                    castContainer.appendChild(card);
+                });
+            }
+            
+            renderTitleReviews(titleId) {
+                const reviews = this.db.getReviewsForTitle(titleId);
+                const container = document.getElementById('reviewsContainer');
+                if (!container) return;
+                
+                container.innerHTML = '';
+                
+                if (reviews.length === 0) {
+                    container.innerHTML = '<p style="text-align: center; padding: 40px; color: var(--gray-dark);">No reviews yet. Be the first to review!</p>';
+                    return;
+                }
+                
+                reviews.forEach(review => {
+                    const card = document.createElement('div');
+                    card.className = 'review-card';
+                    
+                    // Calculate stars
+                    const fullStars = Math.floor(review.rating);
+                    const halfStar = review.rating % 1 >= 0.5;
+                    const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+                    
+                    let starsHtml = '';
+                    for (let i = 0; i < fullStars; i++) starsHtml += '<i class="fas fa-star"></i>';
+                    if (halfStar) starsHtml += '<i class="fas fa-star-half-alt"></i>';
+                    for (let i = 0; i < emptyStars; i++) starsHtml += '<i class="far fa-star"></i>';
+                    
+                    card.innerHTML = `
+                        <div class="review-header">
+                            <div class="review-user">
+                                <img src="${this.db.currentUser.avatar}" alt="User" class="review-avatar">
+                                <div>
+                                    <div class="review-username">${this.db.currentUser.username}</div>
+                                    <div class="review-date">${new Date(review.date).toLocaleDateString()}</div>
+                                </div>
+                            </div>
+                            <div class="review-rating">
+                                ${starsHtml} ${review.rating.toFixed(1)}
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            ${review.text}
+                        </div>
+                        <div class="review-actions">
+                            <div class="review-like">
+                                <i class="fas fa-thumbs-up"></i> <span>${review.likes.length}</span>
+                            </div>
+                        </div>
+                    `;
+                    
+                    container.appendChild(card);
+                });
+                
+                // Write review button
+                document.getElementById('writeReviewBtn').addEventListener('click', () => {
+                    this.showReviewForm(titleId);
+                });
+            }
+            
+            renderTitleDiscussions(titleId) {
+                const discussions = this.db.getDiscussionsForTitle(titleId);
+                const container = document.getElementById('discussionsContainer');
+                if (!container) return;
+                
+                container.innerHTML = '';
+                
+                if (discussions.length === 0) {
+                    container.innerHTML = '<p style="text-align: center; padding: 40px; color: var(--gray-dark);">No discussions yet. Start the first discussion!</p>';
+                    return;
+                }
+                
+                discussions.forEach(discussion => {
+                    const card = document.createElement('div');
+                    card.className = 'discussion-card';
+                    
+                    card.innerHTML = `
+                        <div class="discussion-header">
+                            <div>
+                                <h3 class="discussion-title">${discussion.title}</h3>
+                                <div class="discussion-meta">
+                                    <span>${this.db.currentUser.username}</span>
+                                    <span>•</span>
+                                    <span>${new Date(discussion.date).toLocaleDateString()}</span>
+                                </div>
+                            </div>
+                            <div class="discussion-votes">
+                                <button class="vote-btn upvote"><i class="fas fa-arrow-up"></i></button>
+                                <span class="vote-count">${discussion.upvotes.length - discussion.downvotes.length}</span>
+                                <button class="vote-btn downvote"><i class="fas fa-arrow-down"></i></button>
+                            </div>
+                        </div>
+                        <p>${discussion.text}</p>
+                        <div style="margin-top: 15px;">
+                            <span style="color: var(--primary-pink); font-weight: 600;">
+                                <i class="fas fa-comment"></i> ${discussion.comments.length} comments
+                            </span>
+                        </div>
+                    `;
+                    
+                    container.appendChild(card);
+                });
+                
+                // New discussion button
+                document.getElementById('newDiscussionBtn').addEventListener('click', () => {
+                    this.showNewDiscussionForm(titleId);
+                });
+            }
+            
+            showReviewForm(titleId) {
+                const title = this.db.getTitle(titleId);
+                if (!title) return;
+                
+                const formHtml = `
+                    <div class="form-container" style="max-width: 600px;">
+                        <h2 class="form-title">Review: ${title.title}</h2>
+                        <form id="reviewForm">
+                            <div class="form-group">
+                                <label class="form-label">Rating</label>
+                                <div style="display: flex; gap: 5px; font-size: 2rem; color: #FFC107; margin: 10px 0 20px;" id="starRating">
+                                    <i class="far fa-star" data-rating="1"></i>
+                                    <i class="far fa-star" data-rating="2"></i>
+                                    <i class="far fa-star" data-rating="3"></i>
+                                    <i class="far fa-star" data-rating="4"></i>
+                                    <i class="far fa-star" data-rating="5"></i>
+                                </div>
+                                <input type="hidden" id="ratingValue" value="5">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label" for="reviewText">Your Review</label>
+                                <textarea id="reviewText" class="form-textarea" rows="6" required></textarea>
+                            </div>
+                            
+                            <div class="form-group" style="display: flex; gap: 15px;">
+                                <button type="submit" class="btn btn-primary" style="flex: 1;">
+                                    <i class="fas fa-paper-plane"></i> Submit Review
+                                </button>
+                                <button type="button" class="btn btn-outline" id="cancelReviewBtn" style="flex: 1;">
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                `;
+                
+                document.getElementById('mainContent').innerHTML = formHtml;
+                
+                // Star rating interaction
+                const stars = document.querySelectorAll('#starRating i');
+                const ratingValue = document.getElementById('ratingValue');
+                
+                stars.forEach(star => {
+                    star.addEventListener('mouseover', () => {
+                        const rating = parseInt(star.dataset.rating);
+                        highlightStars(rating);
+                    });
+                    
+                    star.addEventListener('click', () => {
+                        const rating = parseInt(star.dataset.rating);
+                        ratingValue.value = rating;
+                        highlightStars(rating);
+                    });
+                });
+                
+                document.getElementById('starRating').addEventListener('mouseleave', () => {
+                    const currentRating = parseInt(ratingValue.value);
+                    highlightStars(currentRating);
+                });
+                
+                function highlightStars(rating) {
+                    stars.forEach((star, index) => {
+                        if (index < rating) {
+                            star.className = 'fas fa-star';
+                        } else {
+                            star.className = 'far fa-star';
+                        }
+                    });
+                }
+                
+                // Form submission
+                document.getElementById('reviewForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const rating = parseInt(ratingValue.value);
+                    const text = document.getElementById('reviewText').value;
+                    
+                    this.db.addReview(titleId, rating, text);
+                    this.renderTitleDetail(titleId);
+                });
+                
+                // Cancel button
+                document.getElementById('cancelReviewBtn').addEventListener('click', () => {
+                    this.renderTitleDetail(titleId);
+                });
+            }
+            
+            renderAddTitle() {
+                const template = document.getElementById('addTitleTemplate');
+                const content = template.content.cloneNode(true);
+                document.getElementById('mainContent').innerHTML = '';
+                document.getElementById('mainContent').appendChild(content);
+                
+                // Populate genres
+                const genres = [
+                    'Romance', 'Action', 'Thriller', 'Comedy', 'Drama', 'Mystery',
+                    'Fantasy', 'Sci-Fi', 'Horror', 'Historical', 'Crime', 'Adventure',
+                    'Slice of Life', 'Supernatural', 'Music', 'Sports', 'Medical'
+                ];
+                
+                const genresContainer = document.getElementById('genresContainer');
+                genres.forEach(genre => {
+                    const option = document.createElement('div');
+                    option.className = 'select-option';
+                    option.textContent = genre;
+                    option.dataset.value = genre;
+                    option.addEventListener('click', () => {
+                        option.classList.toggle('selected');
+                    });
+                    genresContainer.appendChild(option);
+                });
+                
+                // Cast form functionality
+                let castCount = 0;
+                const castContainer = document.getElementById('castContainer');
+                const addCastBtn = document.getElementById('addCastBtn');
+                
+                function addCastForm() {
+                    castCount++;
+                    const castForm = document.createElement('div');
+                    castForm.className = 'cast-form';
+                    castForm.innerHTML = `
+                        <div class="cast-form-row">
+                            <div class="cast-form-input">
+                                <label class="form-label">Actor Name</label>
+                                <input type="text" class="form-input" name="castName${castCount}" required>
+                            </div>
+                            <div class="cast-form-input">
+                                <label class="form-label">Character Name</label>
+                                <input type="text" class="form-input" name="castCharacter${castCount}" required>
+                            </div>
+                        </div>
+                        <div class="cast-form-row">
+                            <div class="cast-form-input">
+                                <label class="form-label">Role Type</label>
+                                <select class="form-select" name="castRole${castCount}">
+                                    <option value="Main">Main</option>
+                                    <option value="Supporting">Supporting</option>
+                                    <option value="Guest">Guest</option>
+                                </select>
+                            </div>
+                            <div class="cast-form-input">
+                                <label class="form-label">Actor Image URL (optional)</label>
+                                <input type="text" class="form-input" name="castImage${castCount}" placeholder="https://example.com/actor.jpg">
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-outline remove-cast-btn" style="margin-top: 10px;">
+                            <i class="fas fa-trash"></i> Remove Cast Member
+                        </button>
+                    `;
+                    
+                    castContainer.appendChild(castForm);
+                    
+                    // Remove button
+                    castForm.querySelector('.remove-cast-btn').addEventListener('click', () => {
+                        castForm.remove();
+                    });
+                }
+                
+                addCastBtn.addEventListener('click', addCastForm);
+                
+                // Add one initial cast form
+                addCastForm();
+            }
+            
+            handleAddTitleForm(form) {
+                // Get form data
+                const title = form.querySelector('#title').value;
+                const altTitle = form.querySelector('#altTitle').value;
+                const type = form.querySelector('#type').value;
+                const country = form.querySelector('#country').value;
+                const year = parseInt(form.querySelector('#year').value);
+                const episodes = type === 'Drama' ? parseInt(form.querySelector('#episodes').value) || null : null;
+                const poster = form.querySelector('#poster').value;
+                const synopsis = form.querySelector('#synopsis').value;
+                
+                // Get selected genres
+                const selectedGenres = Array.from(form.querySelectorAll('.select-option.selected'))
+                    .map(option => option.dataset.value);
+                
+                // Get cast data
+                const castForms = form.querySelectorAll('.cast-form');
+                const cast = [];
+                
+                castForms.forEach((castForm, index) => {
+                    const actorName = castForm.querySelector(`[name="castName${index + 1}"]`).value;
+                    const characterName = castForm.querySelector(`[name="castCharacter${index + 1}"]`).value;
+                    const roleType = castForm.querySelector(`[name="castRole${index + 1}"]`).value;
+                    const actorImage = castForm.querySelector(`[name="castImage${index + 1}"]`).value;
+                    
+                    if (actorName && characterName) {
+                        // Add to cast database
+                        const newCastId = this.db.cast.length > 0 ? Math.max(...this.db.cast.map(c => c.id)) + 1 : 1;
+                        this.db.cast.push({
+                            id: newCastId,
+                            name: actorName,
+                            image: actorImage || `https://ui-avatars.com/api/?name=${encodeURIComponent(actorName)}&background=FF7BAC&color=fff`
+                        });
+                        
+                        cast.push({
+                            actorId: newCastId,
+                            characterName,
+                            roleType
+                        });
+                    }
+                });
+                
+                // Create title object
+                const titleData = {
+                    title,
+                    altTitles: altTitle ? altTitle.split(',').map(t => t.trim()) : [],
+                    type,
+                    country,
+                    year,
+                    episodes,
+                    poster,
+                    synopsis,
+                    genres: selectedGenres,
+                    cast
+                };
+                
+                // Add to database
+                const newTitle = this.db.addTitle(titleData);
+                
+                // Show success message and go to title page
+                alert(`"${title}" has been added to Kojo!`);
+                this.renderTitleDetail(newTitle.id);
+            }
+            
+            renderProfile() {
+                const template = document.getElementById('profileTemplate');
+                const content = template.content.cloneNode(true);
+                document.getElementById('mainContent').innerHTML = '';
+                document.getElementById('mainContent').appendChild(content);
+                
+                // Set user data
+                const user = this.db.currentUser;
+                document.getElementById('profileUsername').textContent = user.username;
+                document.getElementById('profileJoined').textContent = `Member since ${new Date(user.joinedDate).getFullYear()}`;
+                
+                // Calculate stats
+                const watchlist = this.db.getUserWatchlist(user.id);
+                const watchedCount = watchlist.filter(w => w.status === 'watched').length;
+                const reviewsCount = this.db.reviews.filter(r => r.userId === user.id).length;
+                const listsCount = this.db.lists.filter(l => l.userId === user.id).length;
+                
+                document.getElementById('statWatched').textContent = watchedCount;
+                document.getElementById('statReviews').textContent = reviewsCount;
+                document.getElementById('statLists').textContent = listsCount;
+                
+                // Render watchlist
+                const watchlistContainer = document.getElementById('userWatchlist');
+                const watchedTitles = watchlist
+                    .filter(w => w.status === 'watched')
+                    .map(w => this.db.getTitle(w.titleId))
+                    .filter(t => t);
+                
+                this.renderTitleGridElement(watchlistContainer, watchedTitles.slice(0, 12));
+                
+                // Tab events
+                this.setupTabEvents();
+            }
+            
+            renderTitleGridElement(container, titles) {
+                container.innerHTML = '';
+                
+                if (titles.length === 0) {
+                    container.innerHTML = '<p style="text-align: center; padding: 40px; color: var(--gray-dark);">No items yet.</p>';
+                    return;
+                }
+                
+                titles.forEach(title => {
+                    const card = document.createElement('div');
+                    card.className = 'title-card';
+                    card.dataset.id = title.id;
+                    
+                    // Calculate star rating display
+                    const fullStars = Math.floor(title.rating);
+                    const halfStar = title.rating % 1 >= 0.5;
+                    const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+                    
+                    let starsHtml = '';
+                    for (let i = 0; i < fullStars; i++) starsHtml += '<i class="fas fa-star"></i>';
+                    if (halfStar) starsHtml += '<i class="fas fa-star-half-alt"></i>';
+                    for (let i = 0; i < emptyStars; i++) starsHtml += '<i class="far fa-star"></i>';
+                    
+                    card.innerHTML = `
+                        <img src="${title.poster}" alt="${title.title}" class="title-poster" onerror="this.src='https://via.placeholder.com/180x250/FFE4EC/FF7BAC?text=No+Poster'">
+                        <div class="title-info">
+                            <h3 class="title-name">${title.title}</h3>
+                            <div class="title-meta">
+                                <span class="title-type">${title.type}</span>
+                                <span>${title.year}</span>
+                            </div>
+                            <div class="title-rating">
+                                ${starsHtml}
+                                <span>${title.rating > 0 ? title.rating.toFixed(1) : 'N/A'}</span>
+                            </div>
+                        </div>
+                    `;
+                    
+                    container.appendChild(card);
+                });
+            }
+            
+            browseByGenre(genre) {
+                const titles = this.db.searchTitles('', { genre });
+                this.renderBrowse(titles, `Titles in ${genre}`);
+            }
+            
+            renderBrowse(titles = null, title = "Browse All Titles") {
+                const browseHtml = `
+                    <div class="container">
+                        <div class="section-header">
+                            <h2 class="section-title">${title}</h2>
+                            <div style="display: flex; gap: 15px;">
+                                <select class="form-select" id="filterType" style="width: auto;">
+                                    <option value="">All Types</option>
+                                    <option value="Movie">Movies</option>
+                                    <option value="Drama">Dramas</option>
+                                </select>
+                                <select class="form-select" id="filterCountry" style="width: auto;">
+                                    <option value="">All Countries</option>
+                                    <option value="Korea">Korea</option>
+                                    <option value="Japan">Japan</option>
+                                    <option value="China">China</option>
+                                    <option value="Taiwan">Taiwan</option>
+                                    <option value="Thailand">Thailand</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="genre-tags" id="browseGenres" style="margin-bottom: 30px;"></div>
+                        
+                        <div class="title-grid" id="browseTitles"></div>
+                    </div>
+                `;
+                
+                document.getElementById('mainContent').innerHTML = browseHtml;
+                
+                // Populate genres
+                const genres = this.db.getAllGenres();
+                const genresContainer = document.getElementById('browseGenres');
+                genres.forEach(genre => {
+                    const tag = document.createElement('div');
+                    tag.className = 'genre-tag';
+                    tag.textContent = genre;
+                    tag.dataset.genre = genre;
+                    genresContainer.appendChild(tag);
+                });
+                
+                // Render titles
+                const titlesToShow = titles || this.db.getTitles();
+                this.renderTitleGrid('browseTitles', titlesToShow);
+                
+                // Setup filters
+                document.getElementById('filterType').addEventListener('change', (e) => {
+                    this.applyBrowseFilters();
+                });
+                
+                document.getElementById('filterCountry').addEventListener('change', (e) => {
+                    this.applyBrowseFilters();
+                });
+            }
+            
+            applyBrowseFilters() {
+                const type = document.getElementById('filterType').value;
+                const country = document.getElementById('filterCountry').value;
+                
+                const filteredTitles = this.db.searchTitles('', { type, country });
+                this.renderTitleGrid('browseTitles', filteredTitles);
+            }
+            
+            searchTitles(query) {
+                const results = this.db.searchTitles(query);
+                this.renderBrowse(results, `Search Results for "${query}"`);
+            }
+            
+            renderDiscussions() {
+                const discussionsHtml = `
+                    <div class="container">
+                        <div class="section-header">
+                            <h2 class="section-title">Discussions</h2>
+                            <button class="btn btn-primary" id="newDiscussionGlobalBtn">
+                                <i class="fas fa-plus"></i> New Discussion
+                            </button>
+                        </div>
+                        
+                        <div class="tabs">
+                            <div class="tab active" data-tab="all">All Discussions</div>
+                            <div class="tab" data-tab="kdrama">K-Drama</div>
+                            <div class="tab" data-tab="jdrama">J-Drama</div>
+                            <div class="tab" data-tab="movies">Asian Films</div>
+                        </div>
+                        
+                        <div class="tab-content active" id="allTab">
+                            <div id="allDiscussions"></div>
+                        </div>
+                        <div class="tab-content" id="kdramaTab">
+                            <div id="kdramaDiscussions"></div>
+                        </div>
+                        <div class="tab-content" id="jdramaTab">
+                            <div id="jdramaDiscussions"></div>
+                        </div>
+                        <div class="tab-content" id="moviesTab">
+                            <div id="moviesDiscussions"></div>
+                        </div>
+                    </div>
+                `;
+                
+                document.getElementById('mainContent').innerHTML = discussionsHtml;
+                
+                // Load discussions for each tab
+                this.renderDiscussionTab('all', 'allDiscussions');
+                this.renderDiscussionTab('K-Drama', 'kdramaDiscussions');
+                this.renderDiscussionTab('J-Drama', 'jdramaDiscussions');
+                this.renderDiscussionTab('Asian Films', 'moviesDiscussions');
+                
+                // New discussion button
+                document.getElementById('newDiscussionGlobalBtn').addEventListener('click', () => {
+                    this.showNewDiscussionForm();
+                });
+                
+                // Tab events
+                this.setupTabEvents();
+            }
+            
+            renderDiscussionTab(board, containerId) {
+                const discussions = board === 'all' ? 
+                    this.db.discussions : 
+                    this.db.getDiscussionsForBoard(board);
+                
+                const container = document.getElementById(containerId);
+                if (!container) return;
+                
+                container.innerHTML = '';
+                
+                if (discussions.length === 0) {
+                    container.innerHTML = '<p style="text-align: center; padding: 40px; color: var(--gray-dark);">No discussions yet. Start the first one!</p>';
+                    return;
+                }
+                
+                discussions.forEach(discussion => {
+                    const title = discussion.titleId ? 
+                        this.db.getTitle(discussion.titleId) : 
+                        null;
+                    
+                    const card = document.createElement('div');
+                    card.className = 'discussion-card';
+                    
+                    card.innerHTML = `
+                        <div class="discussion-header">
+                            <div>
+                                <h3 class="discussion-title">${discussion.title}</h3>
+                                <div class="discussion-meta">
+                                    <span>${this.db.currentUser.username}</span>
+                                    <span>•</span>
+                                    <span>${new Date(discussion.date).toLocaleDateString()}</span>
+                                    ${title ? `<span>•</span><span>${title.title}</span>` : ''}
+                                </div>
+                            </div>
+                            <div class="discussion-votes">
+                                <button class="vote-btn upvote"><i class="fas fa-arrow-up"></i></button>
+                                <span class="vote-count">${discussion.upvotes.length - discussion.downvotes.length}</span>
+                                <button class="vote-btn downvote"><i class="fas fa-arrow-down"></i></button>
+                            </div>
+                        </div>
+                        <p>${discussion.text.substring(0, 200)}${discussion.text.length > 200 ? '...' : ''}</p>
+                        <div style="margin-top: 15px;">
+                            <span style="color: var(--primary-pink); font-weight: 600;">
+                                <i class="fas fa-comment"></i> ${discussion.comments.length} comments
+                            </span>
+                        </div>
+                    `;
+                    
+                    container.appendChild(card);
+                });
+            }
+            
+            showNewDiscussionForm(titleId = null) {
+                const title = titleId ? this.db.getTitle(titleId) : null;
+                
+                const formHtml = `
+                    <div class="form-container" style="max-width: 800px;">
+                        <h2 class="form-title">${title ? `Discuss: ${title.title}` : 'Start New Discussion'}</h2>
+                        <form id="discussionForm">
+                            ${!titleId ? `
+                            <div class="form-group">
+                                <label class="form-label" for="discussionBoard">Board</label>
+                                <select id="discussionBoard" class="form-select" required>
+                                    <option value="">Select a board</option>
+                                    <option value="K-Drama">K-Drama</option>
+                                    <option value="J-Drama">J-Drama</option>
+                                    <option value="Asian Films">Asian Films</option>
+                                    <option value="Recommendations">Recommendations</option>
+                                </select>
+                            </div>
+                            ` : ''}
+                            
+                            <div class="form-group">
+                                <label class="form-label" for="discussionTitle">Discussion Title</label>
+                                <input type="text" id="discussionTitle" class="form-input" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label" for="discussionText">Your Discussion</label>
+                                <textarea id="discussionText" class="form-textarea" rows="8" required></textarea>
+                            </div>
+                            
+                            <div class="form-group" style="display: flex; gap: 15px;">
+                                <button type="submit" class="btn btn-primary" style="flex: 1;">
+                                    <i class="fas fa-paper-plane"></i> Post Discussion
+                                </button>
+                                <button type="button" class="btn btn-outline" id="cancelDiscussionBtn" style="flex: 1;">
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                `;
+                
+                document.getElementById('mainContent').innerHTML = formHtml;
+                
+                // Form submission
+                document.getElementById('discussionForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    
+                    const board = titleId ? 'Title Discussion' : document.getElementById('discussionBoard').value;
+                    const discussionTitle = document.getElementById('discussionTitle').value;
+                    const text = document.getElementById('discussionText').value;
+                    
+                    this.db.addDiscussion(titleId, board, discussionTitle, text);
+                    
+                    if (titleId) {
+                        this.renderTitleDetail(titleId);
+                    } else {
+                        this.renderDiscussions();
+                    }
+                });
+                
+                // Cancel button
+                document.getElementById('cancelDiscussionBtn').addEventListener('click', () => {
+                    if (titleId) {
+                        this.renderTitleDetail(titleId);
+                    } else {
+                        this.renderDiscussions();
+                    }
+                });
+            }
+            
+            renderLists() {
+                const listsHtml = `
+                    <div class="container">
+                        <div class="section-header">
+                            <h2 class="section-title">Community Lists</h2>
+                            <button class="btn btn-primary" id="createListBtn">
+                                <i class="fas fa-plus"></i> Create List
+                            </button>
+                        </div>
+                        
+                        <div style="text-align: center; padding: 60px 20px; color: var(--gray-dark);">
+                            <i class="fas fa-list" style="font-size: 4rem; margin-bottom: 20px; color: var(--pink-pastel);"></i>
+                            <h3 style="margin-bottom: 15px;">List feature coming soon!</h3>
+                            <p>Create custom lists like "Best K-Dramas of 2023" or "Hidden Gem Asian Movies"</p>
+                        </div>
+                    </div>
+                `;
+                
+                document.getElementById('mainContent').innerHTML = listsHtml;
+            }
+            
+            switchTab(container, tabName) {
+                // Update active tab
+                container.querySelectorAll('.tab').forEach(tab => {
+                    tab.classList.toggle('active', tab.dataset.tab === tabName);
+                });
+                
+                // Show active tab content
+                container.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.toggle('active', content.id === tabName + 'Tab');
+                });
+            }
+            
+            setupTabEvents() {
+                // Tab switching
+                document.querySelectorAll('.tab').forEach(tab => {
+                    tab.addEventListener('click', (e) => {
+                        const tabName = tab.dataset.tab;
+                        const container = tab.closest('.container');
+                        this.switchTab(container, tabName);
+                    });
+                });
+            }
+            
+            toggleMobileMenu() {
+                const navLinks = document.querySelector('.nav-links');
+                const userActions = document.querySelector('.user-actions');
+                
+                if (navLinks.style.display === 'flex') {
+                    navLinks.style.display = 'none';
+                    userActions.style.display = 'none';
+                } else {
+                    navLinks.style.display = 'flex';
+                    userActions.style.display = 'flex';
+                    
+                    // Adjust for mobile
+                    if (window.innerWidth <= 768) {
+                        navLinks.style.flexDirection = 'column';
+                        navLinks.style.position = 'absolute';
+                        navLinks.style.top = '100%';
+                        navLinks.style.left = '0';
+                        navLinks.style.width = '100%';
+                        navLinks.style.backgroundColor = 'var(--white)';
+                        navLinks.style.padding = '20px';
+                        navLinks.style.boxShadow = '0 10px 20px rgba(0,0,0,0.1)';
+                        
+                        userActions.style.flexDirection = 'column';
+                        userActions.style.position = 'absolute';
+                        userActions.style.top = 'calc(100% + 180px)';
+                        userActions.style.left = '0';
+                        userActions.style.width = '100%';
+                        userActions.style.backgroundColor = 'var(--white)';
+                        userActions.style.padding = '20px';
+                        userActions.style.boxShadow = '0 10px 20px rgba(0,0,0,0.1)';
+                    }
+                }
+            }
+            
+            setupServiceWorker() {
+                if ('serviceWorker' in navigator) {
+                    window.addEventListener('load', () => {
+                        navigator.serviceWorker.register('/sw.js').then(registration => {
+                            console.log('ServiceWorker registration successful');
+                        }).catch(err => {
+                            console.log('ServiceWorker registration failed: ', err);
+                        });
+                    });
+                }
+                
+                // PWA Install prompt
+                let deferredPrompt;
+                const installPrompt = document.getElementById('pwaInstall');
+                
+                window.addEventListener('beforeinstallprompt', (e) => {
+                    e.preventDefault();
+                    deferredPrompt = e;
+                    installPrompt.classList.remove('hidden');
+                });
+                
+                document.getElementById('installBtn').addEventListener('click', () => {
+                    if (deferredPrompt) {
+                        deferredPrompt.prompt();
+                        deferredPrompt.userChoice.then(choiceResult => {
+                            if (choiceResult.outcome === 'accepted') {
+                                console.log('User accepted install');
+                                installPrompt.classList.add('hidden');
+                            }
+                            deferredPrompt = null;
+                        });
+                    }
+                });
+            }
+            
+            installPWA() {
+                // This is triggered by the install button click
+                // The actual installation is handled in setupServiceWorker
+            }
+        }
+
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            window.kojoApp = new KojoApp();
+        });
+    </script>
+</body>
+</html>
